@@ -1,0 +1,9 @@
+---
+description: "Project Spec"
+globs: ["**/*"]
+alwaysApply: true
+---
+
+[Environment]
+- Database: MySQL (via TypeORM) or alternative RDBMS
+- API Server Port: 3002 (default)

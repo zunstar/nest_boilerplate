@@ -1,0 +1,79 @@
+description: "Project Basic Specification for Face Recognition & Physiognomy API with DDD and TDD Principles"
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Architecture Overview
+
+/*
+- 이 프로젝트는 확장성과 유지 보수성을 극대화하기 위해 모듈화되고 계층화된 아키텍처를 따릅니다.
+- 코드는 도메인과 책임에 따라 조직되어 있으며, 비즈니스 로직, 애플리케이션 서비스, 인프라스트럭처가 명확히 분리되어 있습니다.
+- 각 도메인 모듈은 자체 모델, 서비스, 컨트롤러, 리포지토리를 포함합니다.
+- 공통 유틸리티 및 횡단 관심사(로깅, 인증, 필터, 인터셉터)는 `common/` 폴더에 그룹화되어 있으며, 세부적으로 구분되어 있습니다.
+- 환경별 설정 파일은 `config/` 폴더 내에 분리되어 있어 유연한 배포 구성이 가능합니다.
+- 이 구조는 확장성, 독립적인 모듈 개발 및 용이한 테스트를 지원합니다.
+
+- 본 프로젝트는 도메인 주도 설계(DDD) 원칙을 적용하여 각 도메인의 비즈니스 로직에 집중하고, 높은 응집력과 낮은 결합도를 구현합니다.
+- DDD 설계는 도메인 모델, 애플리케이션 서비스, 인프라스트럭처 계층의 명확한 분리를 통해 유지보수성과 확장성을 극대화합니다.
+- 도메인별로 도메인 모델과 서비스, 컨트롤러를 완전하게 묶어 관리하며, 공통 기능은 `common/`에 모아서 재활용성과 코드 중복 최소화를 추구합니다.
+- 이러한 DDD 기반 아키텍처는 팀 간 역할 분담과 병렬 개발에 용이하고, 복잡한 비즈니스 요구 사항 변경에도 유연하게 대응할 수 있습니다.
+
+- 또한, 테스트 주도 개발(TDD) 방식을 적극 도입하여 개발 초기부터 테스트를 작성하고, 테스트를 기준으로 도메인 로직과 기능을 구현합니다.
+- TDD 적용으로, 코드의 품질과 안정성을 보장하며 리팩터링과 유지보수를 안전하게 수행할 수 있습니다.
+- DDD와 TDD의 결합은 복잡한 비즈니스 요구사항을 효과적으로 반영하면서도, 높은 신뢰성과 확장성을 갖춘 시스템 개발을 지원합니다.
+*/
+
+- The project follows a modular and layered architecture to maximize scalability and maintainability.
+- Code is organized by domain and responsibility, separating business logic, application services, and infrastructure.
+- Each domain module contains its own models, services, controllers, and repositories.
+- Common utilities, cross-cutting concerns (logging, authentication, filters, interceptors) are grouped under `common/` and further subdivided.
+- Configuration files are environment-specific and isolated under `config/` to enable flexible deployment setups.
+- This structure supports extensibility, independent module development, and easier testing.
+
+- This project applies Domain-Driven Design (DDD) principles to focus on the business logic of each domain, achieving high cohesion and low coupling.
+- The DDD design separates domain models, application services, and infrastructure layers clearly, maximizing maintainability and scalability.
+- Each domain encapsulates its models, services, and controllers completely, while common concerns are centralized in `common/` to promote reusability and minimize code duplication.
+- This DDD-based architecture facilitates role division among teams, supports parallel development, and adapts flexibly to complex business requirement changes.
+
+- Additionally, the project embraces Test-Driven Development (TDD) methodology by writing tests before code implementation.
+- TDD ensures high code quality, stability, and safe refactoring and maintenance.
+- The integration of DDD and TDD supports building a system that effectively incorporates complex business requirements with reliability and scalability.
+
+# Benefits:
+
+/*
+- 관심사와 책임의 명확한 분리
+- 팀 협업과 병렬 개발 촉진
+- 동적 확장 및 기능 추가 용이
+- 모듈 및 공유 자원 간 결합도 감소
+- 복잡한 비즈니스 요구사항 변화에 대한 유연한 대응
+- 테스트 우선 개발로 인한 높은 코드 품질과 안정성 확보
+- 리팩터링 및 유지보수를 보다 안전하고 효과적으로 수행 가능
+*/
+
+- Clear separation of concerns and responsibilities
+- Facilitates team collaboration and parallel development
+- Enables dynamic scaling and easy feature addition
+- Reduces coupling between modules and shared resources
+- Flexible adaptation to complex changes in business requirements
+- High code quality and stability from test-driven development practices
+- Safer and more efficient refactoring and maintenance
+
+# Example Directory Structure
+src/
+├── modules/                # 각 도메인/기능별 모듈(폴더명 자유, 예: user, auth, face, etc.)
+│   └── ...                # (각 모듈별 controller, service, entity, dto, etc.)
+├── common/                 # 공통 유틸리티, 데코레이터, 인터셉터, 필터, 가드 등
+│   ├── decorators/
+│   ├── filters/
+│   ├── guards/
+│   ├── interceptors/
+│   └── utils/
+├── config/                 # 환경별 설정 및 환경변수 관리
+│   ├── config.module.ts
+│   ├── config.service.ts
+│   ├── development.ts
+│   ├── production.ts
+│   └── staging.ts
+├── main.ts                 # 엔트리포인트
+└── app.module.ts           # 루트 모듈

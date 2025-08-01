@@ -1,0 +1,35 @@
+---
+description: "Base Test"
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# 테스트 및 품질 보증 규칙
+
+/*
+- 단위 및 통합 테스트에는 Jest 프레임워크를 사용합니다.
+- 모든 모듈에서 최소 80% 이상의 테스트 커버리지를 목표로 합니다.
+- 다음 영역을 대상으로 테스트를 작성해야 합니다:
+  - 핵심 비즈니스 로직
+  - API 엔드포인트(컨트롤러)
+  - 서비스 계층 및 통합 지점
+- 테스트는 명확하고 독립적이며 유지보수가 용이해야 합니다.
+- 테스트 케이스 이름은 한국어로 직관적이고 설명적으로 작성합니다.
+- 모든 커밋 및 CI 파이프라인 이전에 테스트를 실행해야 합니다.
+- 테스트 관련 모든 커뮤니케이션과 주석은 한국어로 작성해야 합니다.
+*/
+
+# Testing and Quality Assurance Rules
+
+- Use Jest framework for unit and integration testing.
+- Aim for at least 80% code coverage across all modules.
+- Write tests covering:
+  - Core business logic
+  - API endpoints (controllers)
+  - Service layer and integration points
+- Tests should be clear, isolated, and maintainable.
+- Use descriptive test case names in Korean.
+- Run tests before each commit and CI pipeline.
+- All test-related communication and comments should be in Korean.
+
+# End of Testing Rules

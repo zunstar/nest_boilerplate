@@ -1,0 +1,10 @@
+---
+description: "Base Spec"
+globs: ["**/*"]
+alwaysApply: true
+---
+
+[Environment]
+- Node.js version: 22.17.1 (LTS, default for compatibility)
+- Package Manager: pnpm 10.14.0
+- Framework: NestJS 11.x (with TypeScript)

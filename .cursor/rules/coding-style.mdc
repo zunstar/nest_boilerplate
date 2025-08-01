@@ -1,0 +1,38 @@
+---
+description: "Base Coding Style"
+globs: ["**/*"]
+alwaysApply: true
+---
+# 코딩 스타일 규칙
+
+/*
+- 들여쓰기: 각 레벨 당 **탭 2개** 사용 (스페이스 사용 금지)
+- JavaScript/TypeScript 문법: **ES6 이상 최신 문법** 사용 (let/const, 화살표 함수, 구조 분해 등)
+- 세미콜론: 모든 문장 끝에 **세미콜론 필수**
+- 가능하면 문자열은 **싱글 쿼트(')** 사용
+- 재할당이 필요한 경우를 제외하고는 `const` 사용 권장
+- 익명 함수는 화살표 함수 사용 선호
+- `import` / `export` ES 모듈 문법 사용, CommonJS `require` 사용 지양
+- 후행 콤마(트레일링 콤마) 사용 금지
+- 내보내는 함수 및 클래스에는 항상 JSDoc 주석 작성
+
+# 기타  
+- 모든 AI 생성 코드 및 리뷰는 반드시 위 스타일을 준수하여 작성할 것
+*/
+
+# Coding Style Rules
+
+- Indentation: Use **2 tabs** per indent level (spaces 금지)
+- JavaScript/TypeScript syntax: Use **ES6 and later** 최신 문법 활용 (let/const, arrow functions, destructuring 등)
+- Semicolons: **Semicolons are mandatory** at the end of all statements
+- Use single quotes for strings whenever possible
+- Prefer `const` over `let` unless reassignment is necessary
+- Arrow functions preferred for anonymous functions
+- Use `import`/`export` ES module syntax, avoid CommonJS `require`
+- No trailing commas
+- Always write JSDoc comments for exported functions and classes
+
+# Etc  
+- Please follow the above style for all AI-generated code and reviews.
+
+# End of Coding Style Rules

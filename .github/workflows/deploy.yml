@@ -1,0 +1,39 @@
+name: Deploy to Ubuntu
+
+on:
+  push:
+    branches: [main]
+
+env:
+  SERVICE_NAME: face_api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy via SSH
+        env:
+          SERVICE_NAME: ${{ env.SERVICE_NAME }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
+            set -e
+            export SERVICE_NAME="$SERVICE_NAME"
+            cd ~/$SERVICE_NAME
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            nvm use
+            export PNPM_HOME="$HOME/.local/share/pnpm"
+            export PATH="$PNPM_HOME:$PATH:$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node)/bin"
+            pnpm install --frozen-lockfile
+            pnpm build
+            pm2 reload "$SERVICE_NAME" || pm2 start dist/main.js --name="$SERVICE_NAME"
+            pm2 save
+          EOF

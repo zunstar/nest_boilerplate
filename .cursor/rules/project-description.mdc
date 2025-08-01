@@ -1,0 +1,23 @@
+---
+description: "Project Description"
+globs: ["**/*"]
+alwaysApply: true
+---
+
+/*
+  # 프로젝트 개요 및 목적
+  - 본 프로젝트는 API를 활용하여 얼굴 이미지를 인식하고, 이를 분석하여 관상 정보를 제공하는 것을 최우선 목표로 합니다.
+  - 또한, 분석 결과를 재미있고 흥미롭게 사용자에게 전달하기 위해 번역 및 표현 방식에도 신경 씁니다.
+  - 프로젝트는 도메인 주도 설계(DDD) 원칙을 따르며, 각 도메인의 책임과 역할을 명확히 구분하여 유지보수성과 확장성을 극대화합니다.
+  - 주요 도메인으로는 얼굴 인식(face-recognition), 관상 분석(physiognomy-analysis), 사용자 인증 및 관리(user-auth) 등이 있습니다.
+  - API 중심으로 설계하며, 도메인별 독립성과 모듈화에 중점을 둡니다.
+*/
+
+[Project Overview and Implementation Guidelines]
+- This project prioritizes using APIs to recognize facial images and analyze them to provide physiognomy information.
+- Additionally, it emphasizes entertaining and engaging translations and presentations of the analysis results to end users.
+- The project follows Domain-Driven Design (DDD) principles, distinctly separating domain responsibilities to maximize maintainability and extensibility.
+- Major domains include face-recognition, physiognomy-analysis, and user authentication and management.
+- The architecture is API-driven with a focus on domain modularity and independence.
+
+# End of Project Rules

@@ -1,0 +1,22 @@
+---
+description: "Base Document"
+globs: ["**/*.md", "**/*.mdx", "docs/**/*"]
+alwaysApply: true
+---
+
+/*
+  # 문서화 가이드라인
+  - 모든 README, 기능별 사용법 문서, 가이드 및 프로젝트 관련 문서는 한국어로 작성할 것.
+  - 문서는 명확하고 친절하게 만들어 사용자와 개발자가 쉽게 이해할 수 있도록 한다.
+  - 코드 내 주석은 한글로 상세하게 작성하며, 문서화는 프로젝트 품질과 유지 보수에 필수적임을 인지한다.
+  - 문서 작성 시 불필요한 중복이나 모호한 내용은 지양하고, 최신 정보로 항상 갱신한다.
+*/
+
+# Documentation Guidelines
+
+- All README files, feature usage guides, and project documentation must be written in Korean.
+- Documentation should be clear, polite, and easy to understand for both users and developers.
+- Code comments should be written in Korean with sufficient detail.
+- Proper and up-to-date documentation is essential for project quality and maintainability.
+- Avoid redundancy and ambiguity in documentation content.
+

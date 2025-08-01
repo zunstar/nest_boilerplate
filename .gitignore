@@ -1,0 +1,25 @@
+# Node
+node_modules/
+dist/
+
+# .env // 작업시 주석 해제
+# .env.* // 작업시 주석 해제
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+Thumbs.db
+.DS_Store
+
+# 기타
+*.local 
+pnpm-lock.yaml
