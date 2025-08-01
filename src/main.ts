@@ -15,7 +15,7 @@ async function bootstrap() {
   const isDev = NODE_ENV === 'development';
 
   // CORS 도메인 환경변수에서 가져오기
-  let corsOrigins = [];
+  let corsOrigins : string[] = [];
   const allowedOriginsEnv = getEnv('ALLOWED_ORIGINS');
   if (!allowedOriginsEnv) {
     console.warn('[CORS] ALLOWED_ORIGINS 환경변수가 비어 있습니다. CORS가 제한됩니다.');

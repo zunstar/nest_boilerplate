@@ -6,6 +6,6 @@ export class ConfigService {
 	constructor(private readonly config: NestConfigService) {}
 
 	get(key: string): string {
-		return this.config.get<string>(key);
+		return this.config.get<string>(key) ?? '';
 	}
 }
