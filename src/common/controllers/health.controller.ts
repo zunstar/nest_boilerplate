@@ -4,7 +4,6 @@
  */
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { Public } from '../decorators/public.decorator';
-import { ApiKeyGuard } from '../guards/api-key.guard';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ApiSecurity } from '@nestjs/swagger';
 
