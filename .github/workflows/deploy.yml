@@ -2,10 +2,10 @@ name: Deploy to Ubuntu
 
 on:
   push:
-    branches: [main]
+    branches: [sample]
 
 env:
-  SERVICE_NAME: face_api
+  SERVICE_NAME: sample-service
 
 jobs:
   deploy:
