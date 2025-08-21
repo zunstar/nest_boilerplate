@@ -1,118 +1,152 @@
----
+# Face API 서비스
 
-## GitHub Actions 서비스명(SERVICE_NAME) 관리 설명
+## 📜 개요
 
-배포 워크플로에서 `SERVICE_NAME` 환경 변수는 다음 용도로 사용됩니다:
+본 프로젝트는 NestJS 프레임워크를 기반으로 구축된 백엔드 API 서비스입니다. 사용자 인증, API 요청 제한, 상태 확인 등과 같은 핵심 백엔드 기능을 제공하며, 개발 및 프로덕션 환경에 대한 설정이 분리되어 있습니다.
 
-- **PM2 프로세스명**: pm2로 관리되는 Node.js 서비스의 이름으로 사용
-- **서버 폴더 경로**: SSH 배포 시 해당 서비스가 위치한 서버의 폴더 경로(`~/SERVICE_NAME`)로 활용
+Swagger를 통해 API 문서를 자동으로 생성하여 개발 편의성을 높였으며, GitHub Actions를 이용한 자동 배포 파이프라인이 구축되어 있습니다.
 
-즉, `SERVICE_NAME`을 변경하면 서버의 폴더명과 pm2 프로세스명이 모두 일관되게 적용되어 여러 프로젝트/환경에 쉽게 확장할 수 있습니다.
+## ✨ 주요 기능
 
-> 예시: `SERVICE_NAME: face_api`라면, 서버의 경로는 `~/face_api`이고, pm2 프로세스명도 `face_api`로 관리됩니다.
-## 프로젝트 개요
+- **NestJS 기반**: 확장 가능하고 효율적인 서버사이드 애플리케이션을 위한 프레임워크 사용.
+- **인증 시스템**: JWT (JSON Web Token) 및 API 키를 사용한 이중 인증 체계.
+- **요청 제한 (Rate Limiting)**: `Throttler`를 사용하여 특정 시간 동안의 API 요청 횟수를 제한하여 서비스 안정성 확보.
+- **환경 변수 관리**: `ConfigModule`을 통해 `.env` 파일에 정의된 환경 변수를 안전하게 관리.
+- **자동 API 문서화**: 개발 환경에서 `Swagger`를 통해 API 엔드포인트를 자동으로 문서화하고 테스트 UI 제공.
+- **헬스 체크**: `GET /health` 엔드포인트를 통해 서비스의 현재 상태를 실시간으로 확인.
+- **CORS 설정**: 특정 도메인에서의 요청만 허용하도록 CORS (Cross-Origin Resource Sharing) 정책 설정.
+- **자동 배포**: GitHub Actions를 통해 `sample` 브랜치에 푸시 시 지정된 서버에 자동으로 빌드 및 배포.
 
-NestJS 기반 API 서버로, 인증/보안/헬스체크/Swagger 문서화 등 실무에 필요한 기본 아키텍처를 제공합니다.
+## 🛠️ 기술 스택
 
----
+- **Backend**: NestJS, TypeScript
+- **Authentication**: Passport, JWT (JSON Web Token)
+- **API Documentation**: Swagger
+- **Package Manager**: pnpm
+- **Process Manager**: pm2
+- **CI/CD**: GitHub Actions
 
-## 아키텍처 설명
+## ⚙️ 환경 변수 설정
 
-- **NestJS 모듈 구조**: `src/app.module.ts`에서 루트 모듈을 정의하며, 환경설정(`ConfigModule`), 요청 제한(`ThrottlerModule`), 인증(`ApiKeyGuard`, `JwtAuthGuard`), 헬스체크(`HealthController`) 등 핵심 기능을 모듈화.
-- **환경 변수 관리**: `.env.development`, `.env.production` 파일과 `src/config` 모듈에서 환경별 설정을 안전하게 로딩.
-- **API 인증**: `x-api-key` 헤더와 Origin 기반 인증(`ApiKeyGuard`), JWT 인증(`JwtAuthGuard`)을 지원.
-- **Swagger 문서화**: 개발 환경에서 자동 API 문서 제공.
-- **Throttler**: 기본/AI 요청 제한 정책 적용.
+프로젝트 루트 디렉터리에 환경에 맞는 `.env` 파일을 생성해야 합니다.
 
----
+- 개발용: `.env.development`
+- 프로덕션용: `.env.production`
 
-## 주요 Spec
+```env
+# 서버 설정
+NODE_ENV=development
+PORT=3000
 
-- **언어/프레임워크**: TypeScript, NestJS
-- **런타임**: Node.js 18+ (권장)
-- **API 인증**: API Key + JWT
-- **CORS**: 환경변수 기반 허용 Origin 관리
-- **문서화**: Swagger UI (`/api-docs`)
-- **헬스체크**: `/health` 엔드포인트
+# CORS 설정 (쉼표로 여러 도메인 구분)
+# 예: http://localhost:3001,https://your-frontend.com
+ALLOWED_ORIGINS=
 
----
+# 인증 정보
+API_KEY=your_secret_api_key
+JWT_SECRET=your_jwt_secret_key
 
-## 환경 변수(.env.development) 설명
-
-| 변수명              | 설명                                                         | 예시 값                                      |
-|---------------------|-------------------------------------------------------------|----------------------------------------------|
-| ALLOWED_ORIGINS     | 허용된 CORS Origin 목록(쉼표로 구분)                         | http://localhost:3000,http://127.0.0.1:3000  |
-| PORT                | 서버 실행 포트                                               | 3000                                         |
-| NODE_ENV            | 실행 환경(개발/운영 등)                                      | development                                  |
-| API_KEY             | API 인증용 키(헤더 x-api-key로 전달, ApiKeyGuard에서 검증)   | dev-key                                      |
-| JWT_SECRET          | JWT 토큰 서명에 사용되는 비밀키                              | dev-secret                                   |
-| JWT_EXPIRES_IN      | JWT 토큰 만료 시간                                           | 1h                                           |
-
-> 모든 환경 변수는 `src/config` 모듈에서 안전하게 로딩되며, 인증 및 보안 관련 값은 절대 코드에 하드코딩하지 않습니다.
-
----
-
-## 인증 및 보안
-
-- API 요청 시 반드시 `x-api-key` 헤더에 `API_KEY` 값을 포함해야 하며, Origin은 `ALLOWED_ORIGINS`에 등록된 값이어야 합니다.
-- JWT 기반 인증은 `JWT_SECRET`과 `JWT_EXPIRES_IN` 값을 활용하여 구현됩니다.
-- 인증 로직은 `src/common/guards/api-key.guard.ts`, `src/common/guards/jwt-auth.guard.ts` 참고.
-
----
-
-## 설치 및 실행 순서
-
-1. **의존성 설치**
-   ```bash
-   pnpm install
-   # 또는 npm install
-   ```
-2. **환경 변수 파일 작성**
-   - `.env.development` 파일을 프로젝트 루트에 생성 후, 예시 값 참고하여 작성
-3. **개발 서버 실행**
-   ```bash
-   pnpm start:dev
-   # 또는 npm run start:dev
-   ```
-4. **Swagger 문서 확인**
-   - [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
-
----
-
-## 폴더 구조
-
-```
-src/
-  app.module.ts         # 루트 모듈
-  main.ts               # 앱 부트스트랩 및 환경설정
-  common/
-    controllers/        # 헬스체크 등 공통 컨트롤러
-    decorators/         # 인증/퍼블릭 데코레이터
-    filters/            # 예외 처리 필터
-    guards/             # 인증/보안 Guard
-    interceptors/       # 인터셉터
-    utils/              # 유틸리티
-  config/               # 환경설정 모듈 및 환경별 설정
-  modules/              # 도메인별 비즈니스 모듈
+# SSH 배포 정보 (GitHub Actions에서 사용)
+SSH_HOST=
+SSH_PORT=
+SSH_USERNAME=
+SSH_PRIVATE_KEY=
 ```
 
----
+## 🚀 로컬 환경 설정 및 실행
 
-## 참고
+### 1. 사전 요구사항
 
-- 인증 방식 및 환경 변수 활용 예시는 `src/common/guards/api-key.guard.ts`, `src/main.ts` 참고
-- 헬스체크 엔드포인트: `/health` (JWT/ApiKey 인증 없이 접근 가능)
+- [Node.js](https://nodejs.org/)
+- [pnpm](https://pnpm.io/installation)
 
----
+### 2. 설치
 
-jobs:
-## GitHub Actions 서비스명(SERVICE_NAME) 관리 설명
+```bash
+# 프로젝트 저장소를 클론합니다.
+git clone <repository-url>
+cd face-api
 
-배포 워크플로에서 `SERVICE_NAME` 환경 변수는 다음 용도로 사용됩니다:
+# pnpm을 사용하여 의존성을 설치합니다.
+pnpm install
+```
 
-- **서버 폴더 경로**: SSH 배포 시 해당 서비스가 위치한 서버의 폴더 경로(`~/SERVICE_NAME`)로 활용
-- **PM2 프로세스명**: pm2로 관리되는 Node.js 서비스의 이름으로 사용
+### 3. 애플리케이션 실행
 
-즉, `SERVICE_NAME`을 변경하면 서버의 폴더명과 pm2 프로세스명이 모두 일관되게 적용되어 여러 프로젝트/환경에 쉽게 확장할 수 있습니다.
+#### 개발 모드
 
-> 예시: `SERVICE_NAME: face_api`라면, 서버의 경로는 `~/face_api`이고, pm2 프로세스명도 `face_api`로 관리됩니다.
+파일 변경 시 자동으로 서버가 재시작됩니다. Swagger API 문서가 활성화됩니다.
+
+```bash
+# 개발 모드로 서버 실행
+pnpm start:dev
+```
+
+- 서버 주소: `http://localhost:3000`
+- API 문서 (Swagger): `http://localhost:3000/api-docs`
+
+#### 프로덕션 모드
+
+```bash
+# 애플리케이션 빌드
+pnpm build
+
+# 프로덕션 모드로 서버 실행
+pnpm start:prod
+```
+
+## 📖 API 엔드포인트
+
+자세한 API 명세는 개발 서버 실행 후 [Swagger 문서](http://localhost:3000/api-docs)에서 확인하실 수 있습니다.
+
+### 헬스 체크 (Health Check)
+
+- **Endpoint**: `GET /health`
+- **설명**: API 서버의 현재 상태, 버전, 가동 시간 등의 정보를 반환합니다.
+- **인증**: 필요 없음 (`@Public` 데코레이터 적용)
+- **성공 응답 (200 OK)**:
+  ```json
+  {
+    "status": "ok",
+    "message": "API 서버 정상 작동 중입니다.",
+    "timestamp": "2025-08-20T10:00:00.000Z",
+    "version": "1.0.0",
+    "uptime": 123.45
+  }
+  ```
+
+## 🔄 배포
+
+본 프로젝트는 GitHub Actions를 통해 `sample` 브랜치에 코드가 푸시되면 자동으로 배포가 진행됩니다.
+
+- **트리거**: `sample` 브랜치에 `push` 이벤트 발생 시
+- **프로세스**:
+  1. Ubuntu 서버에 SSH로 접속합니다.
+  2. `nvm`을 사용하여 Node.js 버전을 맞춥니다.
+  3. `pnpm install`로 의존성을 설치합니다.
+  4. `pnpm build`로 프로젝트를 빌드합니다.
+  5. `pm2`를 사용하여 기존 프로세스를 리로드하거나 새로 시작합니다.
+
+배포를 위해서는 GitHub 저장소의 `Secrets`에 `SSH_HOST`, `SSH_PORT`, `SSH_USERNAME`, `SSH_PRIVATE_KEY`가 등록되어 있어야 합니다.
+
+## 📁 프로젝트 구조
+
+```
+.
+├── .github/workflows/   # GitHub Actions 워크플로우
+│   └── deploy.yml
+├── dist/                # 빌드 결과물이 저장되는 디렉터리
+├── src/                 # 소스 코드
+│   ├── common/          # 공통 모듈 (가드, 데코레이터 등)
+│   │   ├── controllers/
+│   │   ├── decorators/
+│   │   └── guards/
+│   ├── config/          # 환경 설정 모듈
+│   ├── app.module.ts    # 루트 모듈
+│   └── main.ts          # 애플리케이션 진입점
+├── .env.development     # 개발 환경 변수 파일
+├── .env.production      # 프로덕션 환경 변수 파일
+├── package.json         # 의존성 및 스크립트 정의
+├── tsconfig.json        # TypeScript 설정
+└── README.md            # 프로젝트 안내 문서
+```
